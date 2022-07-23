@@ -11,7 +11,7 @@ process.on('uncaughtException',(err)=>{
 })
  
 
-console.log(path.join(__dirname ,'config','config.env' ));
+
 dotenv.config({path:path.join(__dirname ,'config','config.env' )});
 connectDB();
 

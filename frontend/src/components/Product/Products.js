@@ -6,7 +6,9 @@ import ProductCard from '../Home/ProductCard';
 import {useParams} from 'react-router-dom';
 import Pagination from 'react-js-pagination' ;
 import Slider from '@material-ui/core/Slider';
-import Typography from '@material-ui/core/styles/createTypography';
+
+import Typography from '@mui/material/Typography';
+
 
 import Loader from '../layout/Loader/loader';
 
@@ -23,7 +25,7 @@ function Products() {
 
 
 
-    const {loading , error ,products , productsCount ,resultPerPage} = useSelector((state)=>state.products);
+    const {loading , error ,products , productsCount ,resultPerPage , filteredProductCount} = useSelector((state)=>state.products);
 
 
     const setCurrentPageNo=(e)=>{
@@ -38,9 +40,13 @@ function Products() {
 
    useEffect(()=>{
 
-    dispatch(getProduct(keyword ,currentPage))
+    dispatch(getProduct(keyword ,currentPage , price))
 
-   },[dispatch , keyword , currentPage]) 
+   },[dispatch , keyword , currentPage , price]) 
+
+
+   let count = filteredProductCount;
+   
  
  
 
@@ -68,7 +74,7 @@ function Products() {
                   />
                 </div>
 
-                   {resultPerPage<productsCount && (
+                   {resultPerPage<count && (
 
                    <div className='paginationBox'>
                     <Pagination
