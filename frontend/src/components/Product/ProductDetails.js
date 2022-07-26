@@ -9,6 +9,7 @@ import ReviewCard from "./ReviewCard";
 import Loader from "../layout/Loader/loader";
 import { useAlert } from "react-alert";
 import "./ProductDetails.css";
+import MetaData from "../layout/metaData";
 
 function ProductDetails() {
  
@@ -47,6 +48,7 @@ function ProductDetails() {
         <Loader />
       ) : (
         <Fragment>
+          <MetaData title = {`${product.name}--Ecommerce`} />
           <div className="ProductDetails">
             <div>
               {/* <Carousel>
@@ -110,7 +112,7 @@ function ProductDetails() {
           {product.reviews && product.reviews[0] ? (
             <div className="reviews">
               {product.reviews &&
-                product.reviews.map((review) => <ReviewCard review={review} />)}
+                product.reviews.map((review , i) => <ReviewCard review={review} key={i} />)}
             </div>
           ) : (
             <p className="noReviews">No Reviews Yet</p>

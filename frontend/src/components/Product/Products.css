@@ -36,6 +36,8 @@
     transition: all 0.3s;
     cursor: pointer;
   }
+
+
   .page-item:first-child {
     border-radius: 5px 0 0 5px;
   }
@@ -43,6 +45,7 @@
   .page-item:last-child {
     border-radius: 0 5px 5px 0;
   }
+
   .page-link {
     text-decoration: none;
     font: 300 0.7vmax "Roboto";
@@ -58,7 +61,7 @@
     color: rgb(0, 0, 0);
   }
   
-  .pageItemActive {
+  .page-item-active{
     background-color: red;
   }
   

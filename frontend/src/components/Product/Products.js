@@ -1,35 +1,47 @@
 import './Products.css';
 import {useSelector , useDispatch} from 'react-redux';
 import {getProduct , clearErrors} from '../../actions/productActions';
-import {Fragment , useEffect, useState} from 'react'
+import {Fragment , useEffect, useState } from 'react'
 import ProductCard from '../Home/ProductCard';
 import {useParams} from 'react-router-dom';
 import Pagination from 'react-js-pagination' ;
 import Slider from '@material-ui/core/Slider';
+import {useAlert} from 'react-alert';
 
 import Typography from '@mui/material/Typography';
 
 
 import Loader from '../layout/Loader/loader';
+import MetaData from '../layout/metaData';
 
+const categories = ["Laptop" , "Footwear" , "Bottom" , "Tops" , "Attire" , "Camera" , "Smartphones"];
 
 
 function Products() {
 
-    const [currentPage ,setCurrentPage] = useState(1);
-    const [price , setPrice]= useState([0,25000]);
-
-
     const dispatch = useDispatch();
+    const alert = useAlert();
+
+
+    const [currentPage ,setCurrentPage] = useState(1);
+    const [price , setPrice]= useState([0,1000]);
+    const [category , setCategory] = useState("");
+    const [ratings , setRatings] = useState(0)
+
+
+    
     const {keyword}=useParams();
 
 
 
-    const {loading , error ,products , productsCount ,resultPerPage , filteredProductCount} = useSelector((state)=>state.products);
+    const {loading , error ,products , productsCount ,resultPerPage } = useSelector((state)=>state.products);
+   
+    
 
 
     const setCurrentPageNo=(e)=>{
         setCurrentPage(e)
+        
     }
     
     const priceHandler=(event , newPrice)=>{
@@ -40,20 +52,24 @@ function Products() {
 
    useEffect(()=>{
 
-    dispatch(getProduct(keyword ,currentPage , price))
+    if(error){
 
-   },[dispatch , keyword , currentPage , price]) 
+        alert.error(error)
+        dispatch(clearErrors())
+    }
 
+    dispatch(getProduct(keyword ,currentPage , price ,category , ratings))
 
-   let count = filteredProductCount;
+   },[dispatch , keyword , currentPage , price , category , ratings , alert ,error]) 
+
    
- 
  
 
     return ( 
         <Fragment>
-            {loading ? <Loader />:
+            {loading ? <Loader />:(
             <Fragment> 
+                <MetaData title = "Products -- Ecommerce" />
                 <h2 className='productsHeading'>Products</h2>
 
                 <div className='products'>
@@ -70,12 +86,39 @@ function Products() {
                   valueLabelDisplay= "auto"
                   aria-labelledby="range-slider"
                   min={0}
-                  max={25000}
+                  max={1000}
                   />
+
+                  <Typography>Categories</Typography>
+                  < ul className='categoryBox' >
+                    {categories.map((category)=>(
+                        <li 
+                         className='category-link'
+                         key={category}
+                         onClick={()=>setCategory(category)}>
+                            {category}
+                        </li>
+                    ))}
+                  </ul>
+
+                  <fieldset>
+                    <Typography component='legend'>Ratings Above</Typography>
+                    <Slider 
+                     value={ratings}
+                     onChange={(e, newRating)=>{
+                        setRatings(newRating)
+                     }}
+                     aria-labelledby ='continous-slider'
+                     min={0}
+                     max={5}
+                     valueLabelDisplay="auto"
+                     />
+                  </fieldset>
+
                 </div>
 
-                   {resultPerPage<count && (
-
+                   
+                   
                    <div className='paginationBox'>
                     <Pagination
                       activePage={currentPage}
@@ -93,8 +136,8 @@ function Products() {
                     />
                     
                 </div>
-             )}
-            </Fragment>}
+             
+            </Fragment>)}
         </Fragment>
      );
 }

@@ -6,6 +6,7 @@ class APIfeatures
         this.queryStr= queryStr;
     }
 
+    
     search()
     {
         
@@ -18,7 +19,7 @@ class APIfeatures
         }:{};
         
         this.query= this.query.find({...keyword});
-        //console.log(this.queryStr);
+        // console.log(this.queryStr);
         return this;
     }
 
@@ -30,6 +31,7 @@ class APIfeatures
         const removefields = ["keyword" , "page" ,"limits"];
         
         removefields.forEach(key=>delete queryCopy[key]);
+        
     
         
         
@@ -45,6 +47,7 @@ class APIfeatures
 
     pagination(resultPerPage)
     {
+        
         const currentPage= Number(this.queryStr.page) || 1;
         const skip = resultPerPage * (currentPage-1);
         this.query = this.query.limit(resultPerPage).skip(skip);
