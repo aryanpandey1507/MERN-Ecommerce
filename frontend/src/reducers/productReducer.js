@@ -32,7 +32,7 @@ export const productReducer = (state={products:[]} , action)=>{
         case CLEAR_ERRORS:
             return {
                 ...state,
-                err:null,
+                error:null,
             };
 
         default:
