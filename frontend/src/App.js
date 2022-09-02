@@ -15,6 +15,7 @@ import UserOptions from './components/layout/Header/UserOptions.js';
 import {useSelector} from 'react-redux';
 import Profile from './components/User/Profile.js'
 import ProtectedRoute from './components/Routes/ProtectedRoutes';
+import UpdateProfile  from './components/User/UpdateProfile';
 
 
 
@@ -39,15 +40,25 @@ function App() {
       <Header />
       {isAuthenticated && <UserOptions user= {user} />}
       <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/product/:id" element={<ProductDetails />} />
-      <Route path="/products" element={<Products />} />
-      <Route path="/products/:keyword" element={<Products />} />
-      <Route path="/search" element={<Search />} />
-      <ProtectedRoute path="/account" element={<Profile />} />
-      <Route path="/login" element={<LoginSignup />} />
+      <Route exact path="/account" element={<ProtectedRoute />}>
+         <Route exact path="/account" element={<Profile />} />
+      </Route>
+
+      <Route exact path="/" element={<Home />} />
+      <Route exact path="/product/:id" element={<ProductDetails />} />
+      <Route exact path="/products" element={<Products />} />
+      <Route exact path="/products/:keyword" element={<Products />} />
+      <Route exact path="/search" element={<Search />} />
+      <Route exact path="/login" element={<LoginSignup />} />
       
+
+      <Route exact path="/me/update" element={<ProtectedRoute />}>
+         <Route exact path="/me/update" element={<UpdateProfile />} />
+      </Route>
+
       </Routes>
+
+      
       <Footer />
     </Router>
   );

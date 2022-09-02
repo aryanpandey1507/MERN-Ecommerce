@@ -2,7 +2,7 @@ import {createStore ,combineReducers , applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import { productReducer , productDetailsReducer } from './reducers/productReducer';
-import { userReducer } from './reducers/userReducer';
+import { profileReducer, userReducer } from './reducers/userReducer';
 
 
 //this combines all the reducers that are present 
@@ -10,7 +10,8 @@ const reducer = combineReducers({
 
     products:productReducer,
     productDetails :productDetailsReducer,
-    user: userReducer
+    user: userReducer,
+    profile:profileReducer
 
 });
 

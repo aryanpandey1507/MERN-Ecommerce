@@ -20,7 +20,6 @@ export const getProduct=(keyword="", currentPage="1" , price=[0 ,25000] , catego
         }
 
         const {data} = await axios.get(link); 
-        
 
         dispatch({
             type:ALL_PRODUCT_SUCCESS,

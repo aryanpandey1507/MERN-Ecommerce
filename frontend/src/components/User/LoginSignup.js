@@ -36,7 +36,7 @@ function LoginSignup() {
     const {name , email , password} = user;
 
     const [avatar , setAvatar]= useState();
-    const [avatarPreview , setAvatarPreview] = useState('./Profile.png')
+    const [avatarPreview , setAvatarPreview] = useState('./Profile.png');
 
     const loginSubmit=(e)=>{
         e.preventDefault()

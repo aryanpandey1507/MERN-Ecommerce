@@ -177,6 +177,7 @@ exports.resetPassword = catchAsyncErrors(async (req,res,next)=>{
 exports.getUserDetails = catchAsyncErrors(async (req,res,next)=>{
 
 
+    
     const user =await User.findById(req.user.id)
    
     res.status(200).json({
@@ -222,12 +223,34 @@ exports.UpdatePassword = catchAsyncErrors(async (req,res,next)=>{
 //Updating the profile
 exports.updateProfile = catchAsyncErrors(async (req,res,next)=>{
     
+
     const newUserData= {
         name:req.body.name,
         email:req.body.email,   
     }
+    
 
-    //cloudinary later 
+    if(req.body.avatar != undefined)
+    {
+        
+        const user= await User.findById(req.user.id);
+
+        const imageId = user.avatar.public_id;
+
+        await cloudinary.v2.uploader.destroy(imageId);
+
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar , {
+            folder:"avatars",
+            width:150,
+            crop:"scale",
+        })
+
+        newUserData.avatar={
+            public_id:myCloud.public_id,
+            url:myCloud.secure_url,
+        }
+    }
+
 
     const user = await User.findByIdAndUpdate(req.user.id, newUserData,{
         new:true,
